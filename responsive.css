@@ -1,0 +1,47 @@
+/* Responsive Styles */
+
+@media (max-width: 900px) {
+    .hero-text h1 {
+        font-size: 3rem;
+    }
+    
+    nav ul {
+        display: none; /* In a real app, this would be a hamburger menu */
+    }
+    
+    .logo {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-text h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero-text p {
+        font-size: 1rem;
+    }
+    
+    .hero-text .btn {
+        display: block;
+        margin: 10px auto;
+        width: 80%;
+    }
+    
+    section {
+        padding: 4rem 5%;
+    }
+    
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .icons {
+        gap: 1rem;
+    }
+}
