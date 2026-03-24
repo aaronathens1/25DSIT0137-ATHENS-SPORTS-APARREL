@@ -24,4 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
             header.style.boxShadow = 'none';
         }
     });
+
+    // Make category cards clickable
+    const categoryCards = document.querySelectorAll('.category-card');
+    categoryCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const sportName = card.querySelector('h3').textContent.trim();
+            window.location.href = `category.php?sport=${encodeURIComponent(sportName)}`;
+        });
+    });
 });

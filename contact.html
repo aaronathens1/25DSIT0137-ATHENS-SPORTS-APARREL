@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Athens Sports Apparel</title>
+    <style>
+        :root {
+          --bg-color: #050505;
+          --surface-color: #111111;
+          --surface-hover: #1a1a1a;
+          --text-main: #ffffff;
+          --text-muted: #a1a1aa;
+          --brand-blue: #0070f3;
+          --brand-orange: #ff5500;
+          --header-height: 80px;
+          --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+          font-family: 'Roboto', sans-serif;
+          background-color: var(--bg-color);
+          color: var(--text-main);
+          line-height: 1.6;
+          overflow-x: hidden;
+          padding-top: var(--header-height);
+        }
+
+        /* HEADER */
+        header {
+          position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height);
+          display: flex; justify-content: space-between; align-items: center;
+          padding: 0 5%; background: rgba(5, 5, 5, 0.8);
+          backdrop-filter: blur(12px); z-index: 1000;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .logo-container { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .logo-img { width: 40px; height: 40px; transition: transform 0.3s ease; }
+        .logo-container:hover .logo-img { transform: scale(1.1) rotate(-5deg); }
+        .logo-text { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+          background: linear-gradient(45deg, var(--brand-blue), var(--brand-orange));
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 500; transition: var(--transition); }
+        nav a:hover { color: var(--brand-orange); }
+        
+        .icons { display: flex; gap: 1.5rem; align-items: center; font-size: 1.2rem; }
+        .icons span { cursor: pointer; transition: var(--transition); position: relative;}
+        .icons span:hover { transform: scale(1.1); color: var(--brand-blue); text-shadow: 0 0 10px rgba(0, 112, 243, 0.5); }
+        .cart-count { position: absolute; top: -8px; right: -10px; background: var(--brand-orange); color: #fff; font-size: 0.7rem; font-weight: 700; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+
+        /* PAGE HEADER */
+        .page-header {
+            padding: 5rem 5%; text-align: center;
+            background: linear-gradient(rgba(5,5,5,0.7), rgba(5,5,5,0.9)), url('https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80') center/cover;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .page-header h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--text-main); text-shadow: 0 4px 15px rgba(0,0,0,0.8); }
+        .page-header p { font-size: 1.2rem; color: var(--brand-orange); }
+        
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 4rem 5%;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .contact-info, .contact-form {
+            flex: 1;
+            min-width: 300px;
+            background: var(--surface-color);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .contact-info h2, .contact-form h2 {
+            color: var(--brand-orange);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .contact-info p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: 'Roboto', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--brand-orange);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            background: var(--brand-orange);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            background: #ff7733;
+            box-shadow: 0 4px 15px rgba(255, 85, 0, 0.4);
+        }
+
+        footer { background: #020202; padding: 4rem 5%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-top: auto;}
+        
+        /* Layout fix to push footer to bottom if few products */
+        body { min-height: 100vh; display: flex; flex-direction: column; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container" onclick="window.location.href='dashboard.php'">
+            <img src="logo.svg" alt="Athens Logo" class="logo-img">
+            <div class="logo-text">Athens Sports Apparel</div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.php">Home</a></li>
+                <li><a href="category.php">Shop</a></li>
+                <li><a href="dashboard.php#sports">Sports</a></li>
+                <li><a href="category.php?sport=New%20Arrivals">New Arrivals</a></li>
+                <li><a href="category.php?sport=Deals">Deals</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="icons">
+            <span class="search" id="search-icon">🔍</span>
+            <span class="account" onclick="window.location.href='login.php'">👤</span>
+            <span class="cart" onclick="window.location.href='cart.html'">🛒<span id="cart-count" class="cart-count">0</span></span>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h1>Contact Us</h1>
+        <p>Get in touch with our team</p>
+    </div>
+
+    <div class="contact-container">
+        <div class="contact-info">
+            <h2>Get In Touch</h2>
+            <p>We're here to help and answer any question you might have. We look forward to hearing from you.</p>
+            <br>
+            <p>📍 <strong>Address:</strong> 123 Sports Avenue, Athletics District, City</p>
+            <p>📞 <strong>Phone:</strong> +1 (555) 123-4567</p>
+            <p>✉️ <strong>Email:</strong> support@athenssports.com</p>
+            <p>🕒 <strong>Hours:</strong> Monday - Saturday: 9:00 AM - 8:00 PM</p>
+        </div>
+        
+        <div class="contact-form">
+            <h2>Send a Message</h2>
+            <form action="#" method="GET" onsubmit="alert('Message sent successfully! We will get back to you soon.'); return false;">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="How can we help you?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Athens Sports Apparel. All rights reserved.</p>
+        <p>Follow us: 🔵 🟠 ⚪</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

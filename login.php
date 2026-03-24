@@ -48,9 +48,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="POST" action="login.php">
             <input type="email" name="email" placeholder="Email Address" required>
             <input type="password" name="password" placeholder="Password" required>
+            <div style="text-align: right; margin-bottom: 10px;">
+                <a href="forgot_password.php" style="font-size: 14px; color: #050505; text-decoration: none; font-weight: bold;">Forgot Password?</a>
+            </div>
             <button type="submit">Login</button>
         </form>
-        <p style="font-size: 14px; text-align: center;">Don't have an account? <a href="signup.php">Sign Up</a></p>
+        <p style="font-size: 14px; text-align: center;">Don't have an account? <a href="index.php">Sign Up</a></p>
     </div>
 </body>
 </html>

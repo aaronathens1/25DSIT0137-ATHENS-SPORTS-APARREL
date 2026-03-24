@@ -1,5 +1,5 @@
+
 <!DOCTYPE html>
-<!-- saved from url=(0084)file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/index.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,54 +8,7 @@
 </head>
 <body>
     <style>
-    /* Responsive Styles */
-
-@media (max-width: 900px) {
-    .hero-text h1 {
-        font-size: 3rem;
-    }
-    
-    nav ul {
-        display: none; /* In a real app, this would be a hamburger menu */
-    }
-    
-    .logo {
-        font-size: 1.2rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .hero-text h1 {
-        font-size: 2.2rem;
-    }
-    
-    .hero-text p {
-        font-size: 1rem;
-    }
-    
-    .hero-text .btn {
-        display: block;
-        margin: 10px auto;
-        width: 80%;
-    }
-    
-    section {
-        padding: 4rem 5%;
-    }
-    
-    .product-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .category-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .icons {
-        gap: 1rem;
-    }
-}
-:root {
+        :root {
   --bg-color: #050505;
   --surface-color: #111111;
   --surface-hover: #1a1a1a;
@@ -107,7 +60,24 @@ header {
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.logo {
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+.logo-container:hover .logo-img {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.logo-text {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
@@ -116,7 +86,6 @@ header {
   background: linear-gradient(45deg, var(--brand-blue), var(--brand-orange));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  cursor: pointer;
 }
 
 nav ul {
@@ -364,7 +333,47 @@ section h2::after {
 
 .category-card:hover h3 {
   color: var(--brand-orange);
-  transform: translateX(10px);
+  transform: translateY(-80px);
+}
+
+.category-card .equipment-list {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7));
+  transition: var(--transition);
+  z-index: 3;
+}
+
+.category-card:hover .equipment-list {
+  bottom: 0;
+}
+
+.equipment-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.equipment-list li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #eee;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 4px;
+}
+
+.equipment-list li:last-child {
+  border-bottom: none;
+}
+
+.equipment-list li span.price {
+  color: var(--brand-orange);
+  font-weight: bold;
 }
 
 /* PRODUCT GRID */
@@ -434,57 +443,314 @@ footer {
   gap: 1rem;
   color: var(--text-muted);
 }
-</style>
+
+    </style>
     <!-- HEADER -->
     <header>
-        <div class="logo">Athens Sports Apparel</div>
+        <div class="logo-container" onclick="window.location.href='dashboard.php'">
+            <img src="logo.svg" alt="Athens Logo" class="logo-img">
+            <div class="logo-text">Athens Sports Apparel</div>
+        </div>
         <nav>
             <ul>
-                <li><a href="file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/index.html">Home</a></li>
-                <li><a href="file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/shop.html">Shop</a></li>
-                <li><a href="file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/index.html#">Sports</a></li>
-                <li><a href="file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/index.html#">New Arrivals</a></li>
-                <li><a href="file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/index.html#">Deals</a></li>
-                <li><a href="file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/about.html">About Us</a></li>
-                <li><a href="file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/contact.html">Contact</a></li>
+                <li><a href="dashboard.php">Home</a></li>
+                <li><a href="category.php">Shop</a></li>
+                <li><a href="#sports">Sports</a></li>
+                <li><a href="category.php?sport=New%20Arrivals">New Arrivals</a></li>
+                <li><a href="category.php?sport=Deals">Deals</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
         <div class="icons">
-            <span class="search">🔍</span>
-            <span class="account">👤</span>
+            <span class="search" id="search-icon" style="cursor: pointer;">🔍</span>
+            <span class="account" onclick="window.location.href='login.php'">👤</span>
             <span class="cart">🛒<span id="cart-count" style="transform: scale(1);">0</span></span>
         </div>
     </header>
+
+    <!-- ANNOUNCEMENT BANNER -->
+    <div class="announcement-banner" style="background: linear-gradient(45deg, var(--brand-blue), var(--brand-orange)); color: white; text-align: center; padding: 12px 20px; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.5px; position: relative; margin-top: var(--header-height); z-index: 10;">
+        📢 <strong>Please Note:</strong> Items displayed come in various sizes and colors, and from top sports brands like Nike, Adidas, Puma, and more! Our physical store offers even more options and variations not shown online. Various products in relation to sport are not published here but can be found on the shop.
+    </div>
 
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-text">
             <h1>Gear Up Like a Champion</h1>
             <p>Premium sports apparel and merchandise for every athlete.</p>
-            <a href="file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/shop.html" class="btn">Shop Now</a>
-            <a href="file:///C:/Users/Athens/.gemini/antigravity/scratch/athens-sports-apparel/shop.html" class="btn secondary">New Arrivals</a>
+            <a href="category.php" class="btn">Shop Now</a>
+            <a href="category.php?sport=New%20Arrivals" class="btn secondary">New Arrivals</a>
         </div>
     </section>
 
     <!-- CATEGORIES -->
-    <section class="categories">
+    <section class="categories" id="sports">
         <h2>Shop by Sport</h2>
         <div class="category-grid">
             <div class="category-card">
-                <img src="./Athens Sports Apparel_files/football.jpg" alt="Football">
+                <img src="football.jpg" alt="Football">
                 <h3>Football</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Helmet <span class="price">$69</span></li>
+                        <li>Cleats <span class="price">$179</span></li>
+                        <li>Pads <span class="price">$15</span></li>
+                    </ul>
+                </div>
             </div>
             <div class="category-card">
-                <img src="./Athens Sports Apparel_files/basketball.jpg" alt="Basketball">
+                <img src="basketball.jpg" alt="Basketball">
                 <h3>Basketball</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Hoop <span class="price">$32</span></li>
+                        <li>Basketball <span class="price">$11</span></li>
+                        <li>Shoes <span class="price">$120</span></li>
+                    </ul>
+                </div>
             </div>
             <div class="category-card">
-                <img src="./Athens Sports Apparel_files/running.jpg" alt="Running">
+                <img src="running.jpg" alt="Running">
                 <h3>Running</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Shoes <span class="price">$176</span></li>
+                        <li>Shorts <span class="price">$35</span></li>
+                        <li>Watch <span class="price">$375</span></li>
+                    </ul>
+                </div>
             </div>
             <div class="category-card">
-                <img src="./Athens Sports Apparel_files/gym.jpg" alt="Gym">
+                <img src="gym.jpg" alt="Gym">
                 <h3>Gym</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Dumbbells <span class="price">$38</span></li>
+                        <li>Bench <span class="price">$56</span></li>
+                        <li>Mat <span class="price">$99</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="tennis.jpg" alt="Tennis">
+                <h3>Tennis</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Racket <span class="price">$216</span></li>
+                        <li>Balls <span class="price">$34</span></li>
+                        <li>Shoes <span class="price">$93</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="baseball.jpg" alt="Baseball">
+                <h3>Baseball</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Bat <span class="price">$192</span></li>
+                        <li>Glove <span class="price">$192</span></li>
+                        <li>Balls <span class="price">$32</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="swimming.jpg" alt="Swimming">
+                <h3>Swimming</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Goggles <span class="price">$41</span></li>
+                        <li>Swimsuit <span class="price">$42</span></li>
+                        <li>Cap <span class="price">$15</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="volleyball.jpg" alt="Volleyball">
+                <h3>Volleyball</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Net <span class="price">$250</span></li>
+                        <li>Ball <span class="price">$10</span></li>
+                        <li>Knee Pads <span class="price">$20</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="golf.png" alt="Golf">
+                <h3>Golf</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Clubs <span class="price">$450</span></li>
+                        <li>Balls <span class="price">$26</span></li>
+                        <li>Tees <span class="price">$11</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="boxing_gloves.png" alt="Boxing">
+                <h3>Boxing</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Gloves <span class="price">$60</span></li>
+                        <li>Heavy Bag <span class="price">$69</span></li>
+                        <li>Wraps <span class="price">$56</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="cycling.jpg" alt="Cycling">
+                <h3>Cycling</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Bike <span class="price">$396</span></li>
+                        <li>Helmet <span class="price">$243</span></li>
+                        <li>Gloves <span class="price">$24</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="rugby.png" alt="Rugby">
+                <h3>Rugby</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Ball <span class="price">$27</span></li>
+                        <li>Boots <span class="price">$112</span></li>
+                        <li>Headgear <span class="price">$124</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="cricket.jpg" alt="Cricket">
+                <h3>Cricket</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Bat <span class="price">$218</span></li>
+                        <li>Pads <span class="price">$218</span></li>
+                        <li>Ball <span class="price">$34</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="hockey.jpg" alt="Hockey">
+                <h3>Hockey</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Stick <span class="price">$140</span></li>
+                        <li>Puck <span class="price">$25</span></li>
+                        <li>Skates <span class="price">$114</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="table_tennis.jpg" alt="Table Tennis">
+                <h3>Table Tennis</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Paddle <span class="price">$205</span></li>
+                        <li>Table <span class="price">$358</span></li>
+                        <li>Balls <span class="price">$23</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="badminton.jpg" alt="Badminton">
+                <h3>Badminton</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Racket <span class="price">$129</span></li>
+                        <li>Shuttlecocks <span class="price">$16</span></li>
+                        <li>Net <span class="price">$208</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="surfing.jpg" alt="Surfing">
+                <h3>Surfing</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Board <span class="price">$245</span></li>
+                        <li>Wetsuit <span class="price">$53</span></li>
+                        <li>Wax <span class="price">$245</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="skateboarding.png" alt="Skateboarding">
+                <h3>Skateboarding</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Deck <span class="price">$80</span></li>
+                        <li>Trucks <span class="price">$45</span></li>
+                        <li>Wheels <span class="price">$30</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="snowboarding.jpg" alt="Snowboarding">
+                <h3>Snowboarding</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Board <span class="price">$210</span></li>
+                        <li>Boots <span class="price">$79</span></li>
+                        <li>Goggles <span class="price">$75</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="skiing.jpg" alt="Skiing">
+                <h3>Skiing</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Skis <span class="price">$420</span></li>
+                        <li>Poles <span class="price">$24</span></li>
+                        <li>Helmet <span class="price">$240</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="yoga.jpg" alt="Yoga">
+                <h3>Yoga</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Mat <span class="price">$99</span></li>
+                        <li>Blocks <span class="price">$59</span></li>
+                        <li>Strap <span class="price">$37</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="track.jpg" alt="Track and Field">
+                <h3>Track and Field</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Spikes <span class="price">$75</span></li>
+                        <li>Starting Block <span class="price">$120</span></li>
+                        <li>Baton <span class="price">$15</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="uefa_ball.png" alt="Soccer (Football)">
+                <h3>Soccer (Football)</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Ball <span class="price">$16</span></li>
+                        <li>Cleats <span class="price">$179</span></li>
+                        <li>Shin Guards <span class="price">$20</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="pool_table_cover.png" alt="Pool Tables">
+                <h3>Pool Tables</h3>
+                <div class="equipment-list">
+                    <ul>
+                        <li>Cue <span class="price">$23</span></li>
+                        <li>Balls <span class="price">$15</span></li>
+                        <li>Heyball Table <span class="price">$1500</span></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
@@ -494,27 +760,7 @@ footer {
         <h2>Best Sellers</h2>
         <div id="best-sellers-grid" class="product-grid">
             <!-- Products will be loaded from products.json -->
-        <div class="product-card">
-            <img src="./Athens Sports Apparel_files/running-shoes.jpg" alt="Performance Running Shoes">
-            <h3>Performance Running Shoes</h3>
-            <p>$120</p>
-            <button class="add-to-cart" data-product="Performance Running Shoes" data-price="120">Add to Cart</button>
-        </div><div class="product-card">
-            <img src="https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&amp;fit=crop&amp;q=80&amp;w=500" alt="Compression Shirt">
-            <h3>Compression Shirt</h3>
-            <p>$45</p>
-            <button class="add-to-cart" data-product="Compression Shirt" data-price="45">Add to Cart</button>
-        </div><div class="product-card">
-            <img src="https://images.unsplash.com/photo-1577212017184-80ec0ea7a23c?auto=format&amp;fit=crop&amp;q=80&amp;w=500" alt="Football Jersey">
-            <h3>Football Jersey</h3>
-            <p>$60</p>
-            <button class="add-to-cart" data-product="Football Jersey" data-price="60">Add to Cart</button>
-        </div><div class="product-card">
-            <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&amp;fit=crop&amp;q=80&amp;w=500" alt="Basketball Shoes">
-            <h3>Basketball Shoes</h3>
-            <p>$130</p>
-            <button class="add-to-cart" data-product="Basketball Shoes" data-price="130">Add to Cart</button>
-        </div></div>
+</div>
     </section>
 
     <!-- FOOTER -->
@@ -525,10 +771,11 @@ footer {
         </div>
     </footer>
 
-<script src="./Athens Sports Apparel_files/products.js"></script>
-<script src="./Athens Sports Apparel_files/main.js"></script>
-<script src="./Athens Sports Apparel_files/cart.js"></script>
-<script src="./Athens Sports Apparel_files/api.js"></script>
+<script src="products.js"></script>
+<script src="main.js"></script>
+<script src="cart.js"></script>
+<script src="api.js"></script>
+<script src="imageModal.js"></script>
 
 
 </body></html>

@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-container">
         <h2>Athens Sports Aparrel</h2>
         <?php if($message) echo "<p style='color:red;'>$message</p>"; ?>
-        <form method="POST" action="signup.php">
+        <form method="POST" action="index.php">
             <input type="text" name="username" placeholder="Username" required>
             <input type="email" name="email" placeholder="Email Address" required>
             <input type="password" name="password" placeholder="Password" required>
