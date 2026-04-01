@@ -1592,12 +1592,12 @@ const products = [
         "description": "Experience unmatched quality with this dual-action air pump. Ideal for basketball enthusiasts."
     },
     {
-        "id": 705,
         "name": "Referee Tactics Whistle",
         "category": "Basketball",
-        "price": 14,
+        "price": 16,
         "image": "whistle.jpg",
-        "description": "Experience unmatched quality with this referee tactics whistle. Ideal for basketball enthusiasts."
+        "description": "Experience unmatched quality with this referee tactics whistle. Ideal for basketball enthusiasts.",
+        "id": 705
     },
     {
         "id": 706,

@@ -1,4 +1,4 @@
-
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -521,6 +521,7 @@ footer {
                     </ul>
                 </div>
             </div>
+            <?php if(isset($_SESSION['user_id'])): ?>
             <div class="category-card">
                 <img src="gym.jpg" alt="Gym">
                 <h3>Gym</h3>
@@ -752,15 +753,33 @@ footer {
                     </ul>
                 </div>
             </div>
+            <?php else: ?>
+                <div class="category-card" style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(45deg, var(--brand-blue), var(--brand-orange));">
+                    <h3 style="font-size: 2rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">Unlock the Full Arsenal!</h3>
+                    <p style="color: #fff; margin-bottom: 1.5rem;">Sign up to view all 24 sports categories and gain access to exclusive best-sellers.</p>
+                    <a href="index.php" class="btn" style="background: #fff; color: var(--brand-orange);">Sign Up Now</a>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
     <!-- BEST SELLERS -->
     <section class="best-sellers">
         <h2>Best Sellers</h2>
+        <?php if(isset($_SESSION['user_id'])): ?>
         <div id="best-sellers-grid" class="product-grid">
             <!-- Products will be loaded from products.json -->
 </div>
+        <?php else: ?>
+        <div style="text-align: center; padding: 3rem; background: var(--surface-color); border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
+            <h3 style="color: var(--brand-orange); font-size: 1.8rem; margin-bottom: 1rem;">Member Exclusive</h3>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">Log in or create an account to shop Athens Sports Apparel's hottest inventory!</p>
+            <div style="display: flex; justify-content: center; gap: 1rem;">
+                <a href="login.php" class="btn secondary">Login</a>
+                <a href="index.php" class="btn">Sign Up</a>
+            </div>
+        </div>
+        <?php endif; ?>
     </section>
 
     <!-- FOOTER -->

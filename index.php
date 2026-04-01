@@ -8,11 +8,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    $first_name = $_POST['first_name'] ?? '';
+    $last_name = $_POST['last_name'] ?? '';
+    $phone = $_POST['phone'] ?? '';
+
     // 1. Hash the password for security
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // 2. Prepare the SQL statement (Prevents SQL Injection)
-    $sql = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
+    $sql = "INSERT INTO users (username, email, password, first_name, last_name, phone) VALUES (:username, :email, :password, :first_name, :last_name, :phone)";
     $stmt = $pdo->prepare($sql);
 
     try {
@@ -20,7 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([
             ':username' => $username,
             ':email' => $email,
-            ':password' => $hashed_password
+            ':password' => $hashed_password,
+            ':first_name' => $first_name,
+            ':last_name' => $last_name,
+            ':phone' => $phone
         ]);
         $message = "Account created successfully! <a href='login.php'>Login here</a>";
     } catch (PDOException $e) {
@@ -47,6 +54,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Athens Sports Aparrel</h2>
         <?php if($message) echo "<p style='color:red;'>$message</p>"; ?>
         <form method="POST" action="index.php">
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+            <input type="tel" name="phone" placeholder="Phone Number" required>
             <input type="text" name="username" placeholder="Username" required>
             <input type="email" name="email" placeholder="Email Address" required>
             <input type="password" name="password" placeholder="Password" required>
