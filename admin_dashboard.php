@@ -1,6 +1,16 @@
 <?php
 session_start();
 
+if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
+    if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
+        session_unset();
+        session_destroy();
+        header("Location: admin_login.php?timeout=1");
+        exit();
+    }
+    $_SESSION['LAST_ACTIVITY'] = time();
+}
+
 // Check if user is logged in
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header("Location: admin_login.php");

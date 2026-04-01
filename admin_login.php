@@ -15,6 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Invalid username or password.";
     }
 }
+
+if (isset($_GET['timeout'])) {
+    $error = "Your session expired after 15 minutes of inactivity. Please log in again.";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

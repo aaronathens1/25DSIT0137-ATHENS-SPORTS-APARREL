@@ -7,6 +7,7 @@ $message_type = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
+    $phone = $_POST['phone'];
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
 
@@ -14,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Passwords do not match!";
         $message_type = "red";
     } else {
-        // Find user by email
-        $sql = "SELECT id FROM users WHERE email = :email";
+        // Find user by email and phone as a security verification
+        $sql = "SELECT id FROM users WHERE email = :email AND phone = :phone";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([':email' => $email]);
+        $stmt->execute([':email' => $email, ':phone' => $phone]);
         $user = $stmt->fetch();
 
         if ($user) {
@@ -33,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $message_type = "red";
             }
         } else {
-            $message = "No account found with that email address.";
+            $message = "No account matches that email and phone number.";
             $message_type = "red";
         }
     }
@@ -59,10 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Reset Password</h2>
         <?php if($message) echo "<p style='color:$message_type; font-size: 14px; text-align: center; font-weight: bold; background-color: rgba(255,255,255,0.8); padding: 5px; border-radius: 4px;'>$message</p>"; ?>
         <form method="POST" action="forgot_password.php">
+            <p style="font-size: 13px; margin: 0 0 10px 0; color: #050505;">Enter your details to securely reset your password.</p>
             <input type="email" name="email" placeholder="Email Address" required>
+            <input type="tel" name="phone" placeholder="Registered Phone Number" required>
             <input type="password" name="new_password" placeholder="New Password" required minlength="6">
             <input type="password" name="confirm_password" placeholder="Confirm New Password" required minlength="6">
-            <button type="submit">Reset Password</button>
+            <button type="submit">Retrieve Account & Reset</button>
         </form>
         <a href="login.php" class="back-link">Back to Login</a>
     </div>

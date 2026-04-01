@@ -63,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Create Account</button>
         </form>
         <p style="font-size: 14px; text-align: center;">Already have an account? <a href="login.php">Login</a></p>
+        <p style="font-size: 14px; text-align: center; margin-top: 15px;"><a href="dashboard.php" style="color: #ff5500; text-decoration: none; font-weight: bold; background: #050505; padding: 8px 15px; border-radius: 4px;">Continue as Guest</a></p>
     </div>
 </body>
 </html>

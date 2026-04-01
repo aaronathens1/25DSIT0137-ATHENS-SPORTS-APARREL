@@ -1,4 +1,22 @@
-<?php session_start(); ?>
+<?php 
+session_start(); 
+
+if (isset($_SESSION['user_id'])) {
+    if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
+        session_unset();
+        session_destroy();
+        header("Location: login.php?timeout=1");
+        exit();
+    }
+    $_SESSION['LAST_ACTIVITY'] = time();
+}
+
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: dashboard.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -464,7 +482,13 @@ footer {
         </nav>
         <div class="icons">
             <span class="search" id="search-icon" style="cursor: pointer;">🔍</span>
-            <span class="account" onclick="window.location.href='login.php'">👤</span>
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <a href="?logout=1" class="btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; text-decoration: none;">Logout</a>
+            <?php else: ?>
+                <a href="login.php" class="btn secondary" style="padding: 0.4rem 1rem; font-size: 0.8rem; text-decoration: none;">Login</a>
+                <a href="index.php" class="btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; text-decoration: none;">Sign Up</a>
+                <a href="admin_login.php" class="btn secondary" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-color: var(--brand-orange); color: var(--brand-orange); text-decoration: none;">Admin Login</a>
+            <?php endif; ?>
             <span class="cart">🛒<span id="cart-count" style="transform: scale(1);">0</span></span>
         </div>
     </header>
@@ -769,7 +793,7 @@ footer {
         <?php if(isset($_SESSION['user_id'])): ?>
         <div id="best-sellers-grid" class="product-grid">
             <!-- Products will be loaded from products.json -->
-</div>
+        </div>
         <?php else: ?>
         <div style="text-align: center; padding: 3rem; background: var(--surface-color); border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
             <h3 style="color: var(--brand-orange); font-size: 1.8rem; margin-bottom: 1rem;">Member Exclusive</h3>

@@ -27,6 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Invalid email or password!";
     }
 }
+
+if (isset($_GET['timeout'])) {
+    $message = "Your session expired after 15 minutes of inactivity. Please log in again.";
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Login</button>
         </form>
         <p style="font-size: 14px; text-align: center;">Don't have an account? <a href="index.php">Sign Up</a></p>
+        <p style="font-size: 14px; text-align: center; margin-top: 15px;"><a href="dashboard.php" style="color: #ff5500; text-decoration: none; font-weight: bold; background: #050505; padding: 8px 15px; border-radius: 4px;">Continue as Guest</a></p>
     </div>
 </body>
 </html>
