@@ -102,10 +102,7 @@
         </div>
     </header>
 
-    <!-- ANNOUNCEMENT BANNER -->
-    <div class="announcement-banner" style="background: linear-gradient(45deg, var(--brand-blue), var(--brand-orange)); color: white; text-align: center; padding: 12px 20px; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.5px; position: relative; z-index: 10;">
-        📢 <strong>Please Note:</strong> Items displayed come in various sizes and colors, and from top sports brands like Nike, Adidas, Puma, and more! Our physical store offers even more options and variations not shown online. Various products in relation to sport are not published here but can be found on the shop.
-    </div>
+
 
     <div class="category-header">
         <h1 id="category-title">Loading...</h1>
@@ -114,6 +111,11 @@
 
     <div id="category-products-grid" class="product-grid">
         <!-- Javascript dynamically inserts products here -->
+    </div>
+
+    <!-- ANNOUNCEMENT BANNER -->
+    <div class="announcement-banner" style="background: linear-gradient(45deg, var(--brand-blue), var(--brand-orange)); color: white; text-align: center; padding: 20px; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.5px;">
+        📢 <strong>Please Note:</strong> Items displayed come in various sizes and colors, and from top sports brands like Nike, Adidas, Puma, and more! Our physical store offers even more options and variations not shown online. Various products in relation to sport are not published here but can be found on the shop.
     </div>
 
     <footer>

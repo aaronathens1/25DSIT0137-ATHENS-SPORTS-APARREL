@@ -490,16 +490,12 @@ footer {
             <?php else: ?>
                 <a href="login.php" class="btn secondary" style="padding: 0.4rem 1rem; font-size: 0.8rem; text-decoration: none;">Login</a>
                 <a href="index.php" class="btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; text-decoration: none;">Sign Up</a>
-                <a href="admin_login.php" class="btn secondary" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-color: var(--brand-orange); color: var(--brand-orange); text-decoration: none;">Admin Login</a>
             <?php endif; ?>
             <span class="cart">🛒<span id="cart-count" style="transform: scale(1);">0</span></span>
         </div>
     </header>
 
-    <!-- ANNOUNCEMENT BANNER -->
-    <div class="announcement-banner" style="background: linear-gradient(45deg, var(--brand-blue), var(--brand-orange)); color: white; text-align: center; padding: 12px 20px; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.5px; position: relative; margin-top: var(--header-height); z-index: 10;">
-        📢 <strong>Please Note:</strong> Items displayed come in various sizes and colors, and from top sports brands like Nike, Adidas, Puma, and more! Our physical store offers even more options and variations not shown online. Various products in relation to sport are not published here but can be found on the shop.
-    </div>
+
 
     <!-- HERO SECTION -->
     <section class="hero">
@@ -808,6 +804,11 @@ footer {
         </div>
         <?php endif; ?>
     </section>
+
+    <!-- ANNOUNCEMENT BANNER -->
+    <div class="announcement-banner" style="background: linear-gradient(45deg, var(--brand-blue), var(--brand-orange)); color: white; text-align: center; padding: 20px; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.5px;">
+        📢 <strong>Please Note:</strong> Items displayed come in various sizes and colors, and from top sports brands like Nike, Adidas, Puma, and more! Our physical store offers even more options and variations not shown online. Various products in relation to sport are not published here but can be found on the shop.
+    </div>
 
     <!-- FOOTER -->
     <footer>
