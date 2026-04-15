@@ -267,6 +267,27 @@ if (isset($_GET['logout'])) {
                 </tbody>
             </table>
         </div>
+
+        <div class="dashboard-header" style="margin-top: 4rem;">
+            <h1>Customer Messages</h1>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="messages-tbody">
+                    <tr><td colspan="5" style="text-align:center">Loading messages...</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Product Modal -->
@@ -303,6 +324,7 @@ if (isset($_GET['logout'])) {
 
     <script>
         let productsData = [];
+        let messagesData = [];
         let currentAction = 'add'; // 'add' or 'edit'
 
         // Fetch products on load
@@ -432,8 +454,67 @@ if (isset($_GET['logout'])) {
             }
         }
 
+        async function fetchMessages() {
+            try {
+                const res = await fetch('admin_api_messages.php');
+                messagesData = await res.json();
+                renderMessagesTable();
+            } catch (err) {
+                console.error("Failed to load messages", err);
+            }
+        }
+
+        function renderMessagesTable() {
+            const tbody = document.getElementById('messages-tbody');
+            tbody.innerHTML = '';
+            
+            if (!messagesData || messagesData.length === 0 || messagesData.error) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">No messages found.</td></tr>';
+                return;
+            }
+
+            messagesData.forEach(m => {
+                const tr = document.createElement('tr');
+                const safeName = m.name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                const safeEmail = m.email.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                const safeMessage = m.message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                const safeDate = new Date(m.created_at).toLocaleString();
+                
+                tr.innerHTML = `
+                    <td>${safeDate}</td>
+                    <td><strong>${safeName}</strong></td>
+                    <td><a href="mailto:${safeEmail}" style="color:var(--brand-blue)">${safeEmail}</a></td>
+                    <td style="max-width: 400px; white-space: pre-wrap;">${safeMessage}</td>
+                    <td class="action-btns">
+                        <button class="btn btn-small btn-danger" onclick="deleteMessage(${m.id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function deleteMessage(id) {
+            if (!confirm(`Are you sure you want to delete this message?`)) return;
+            try {
+                const res = await fetch('admin_api_messages.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'delete', id: id })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    await fetchMessages();
+                } else {
+                    alert("Error: " + (result.error || "Failed to delete"));
+                }
+            } catch (err) {
+                alert("Request Failed: " + err.message);
+            }
+        }
+
         // Init
         fetchProducts();
+        fetchMessages();
     </script>
 </body>
 </html>
