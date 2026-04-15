@@ -481,7 +481,10 @@ footer {
             </ul>
         </nav>
         <div class="icons">
-            <span class="search" id="search-icon" style="cursor: pointer;">🔍</span>
+            <div class="search-container" style="display: flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 5px 15px; transition: var(--transition);">
+                <input type="text" id="search-input" placeholder="Search products..." style="background: transparent; border: none; color: white; outline: none; width: 150px; font-size: 0.9rem; font-family: 'Roboto', sans-serif;">
+                <span class="search" id="search-icon" style="cursor: pointer; margin-left: 8px;">🔍</span>
+            </div>
             <?php if(isset($_SESSION['user_id'])): ?>
                 <a href="?logout=1" class="btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; text-decoration: none;">Logout</a>
             <?php else: ?>

@@ -93,7 +93,10 @@
             </ul>
         </nav>
         <div class="icons">
-            <span class="search" id="search-icon">🔍</span>
+            <div class="search-container" style="display: flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 5px 15px; transition: var(--transition);">
+                <input type="text" id="search-input" placeholder="Search products..." style="background: transparent; border: none; color: white; outline: none; width: 150px; font-size: 0.9rem; font-family: 'Roboto', sans-serif;">
+                <span class="search" id="search-icon" style="cursor: pointer; margin-left: 8px;">🔍</span>
+            </div>
             <span class="account" onclick="window.location.href='login.php'">👤</span>
             <span class="cart">🛒<span id="cart-count" class="cart-count">0</span></span>
         </div>
@@ -183,20 +186,44 @@
                 });
             }
 
-            // Search Functionality Reused for category page
+            // Search Functionality
+            const searchInput = document.getElementById("search-input");
             const searchIcon = document.getElementById("search-icon");
+            
+            function performSearch() {
+                if (!searchInput) return;
+                const q = searchInput.value.toLowerCase().trim();
+                
+                if (q !== "") {
+                    titleEl.textContent = 'Search Results for "' + q + '"';
+                    const filtered = products.filter(p => 
+                        p.name.toLowerCase().includes(q) || 
+                        p.category.toLowerCase().includes(q)
+                    );
+                    renderProducts(filtered);
+                } else {
+                    if (!sportParam || sportParam.toLowerCase() === "all products" || sportParam.toLowerCase() === "null") {
+                        titleEl.textContent = "All Products";
+                        renderProducts(products);
+                    } else if (sportParam.toLowerCase() === "new arrivals") {
+                        titleEl.textContent = "New Arrivals";
+                        renderProducts(products.slice(-20).reverse());
+                    } else if (sportParam.toLowerCase() === "deals") {
+                        titleEl.textContent = "Today's Deals";
+                        renderProducts(products.filter(p => p.price <= 50).slice(0, 30));
+                    } else {
+                        titleEl.textContent = sportParam;
+                        renderProducts(products.filter(p => p.category.toLowerCase() === sportParam.toLowerCase()));
+                    }
+                }
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener("input", performSearch);
+            }
             if (searchIcon) {
                 searchIcon.addEventListener("click", () => {
-                    const query = prompt("Enter the product or category you are searching for:");
-                    if (query !== null) {
-                        const q = query.toLowerCase().trim();
-                        titleEl.textContent = 'Search Results for "' + query + '"';
-                        const filtered = products.filter(p => 
-                            p.name.toLowerCase().includes(q) || 
-                            p.category.toLowerCase().includes(q)
-                        );
-                        renderProducts(filtered);
-                    }
+                    if (searchInput) searchInput.focus();
                 });
             }
         });

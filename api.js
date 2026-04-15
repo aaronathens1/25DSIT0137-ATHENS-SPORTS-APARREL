@@ -34,28 +34,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial Render
     renderProducts(products);
 
-    // Search Functionality via Browser Prompt
+    // Search Functionality
+    const searchInput = document.getElementById("search-input");
     const searchIcon = document.getElementById("search-icon") || document.querySelector(".search");
+
+    function executeSearch() {
+        if (!searchInput) return;
+        const q = searchInput.value.toLowerCase().trim();
+        const filtered = products.filter(p => 
+            p.name.toLowerCase().includes(q) || 
+            p.category.toLowerCase().includes(q)
+        );
+        renderProducts(filtered);
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener("input", executeSearch);
+    }
 
     if (searchIcon) {
         searchIcon.addEventListener("click", () => {
-            const query = prompt("Enter the product or category you are searching for:");
-            if (query !== null) {
-                const q = query.toLowerCase().trim();
-                const filtered = products.filter(p => 
-                    p.name.toLowerCase().includes(q) || 
-                    p.category.toLowerCase().includes(q)
-                );
-                renderProducts(filtered);
-                
-                // Scroll to Best Sellers
+            if (searchInput) {
+                searchInput.focus();
+                // Scroll if they specifically clicked the icon and there is a search term
                 const bestSellersSection = document.querySelector(".best-sellers");
-                if (bestSellersSection) {
+                if (bestSellersSection && searchInput.value.trim() !== '') {
                     bestSellersSection.scrollIntoView({ behavior: 'smooth' });
                 }
-            } else {
-                // If user cancels, reset to all
-                renderProducts(products);
             }
         });
     }
