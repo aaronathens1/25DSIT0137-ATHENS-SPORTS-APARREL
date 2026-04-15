@@ -486,6 +486,7 @@ if (isset($_GET['logout'])) {
                     <td><a href="mailto:${safeEmail}" style="color:var(--brand-blue)">${safeEmail}</a></td>
                     <td style="max-width: 400px; white-space: pre-wrap;">${safeMessage}</td>
                     <td class="action-btns">
+                        <button class="btn btn-small" style="background:#0070f3" onclick="replyToMessage('${safeEmail}')">Reply</button>
                         <button class="btn btn-small btn-danger" onclick="deleteMessage(${m.id})">Delete</button>
                     </td>
                 `;
@@ -509,6 +510,15 @@ if (isset($_GET['logout'])) {
                 }
             } catch (err) {
                 alert("Request Failed: " + err.message);
+            }
+        }
+
+        function replyToMessage(email) {
+            const replyText = prompt("Draft your reply to " + email + ":");
+            if (replyText) {
+                const subject = encodeURIComponent("Reply from Athens Sports Apparel");
+                const body = encodeURIComponent(replyText);
+                window.location.href = \`mailto:\${email}?subject=\${subject}&body=\${body}\`;
             }
         }
 
