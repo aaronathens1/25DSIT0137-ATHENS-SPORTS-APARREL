@@ -85,6 +85,15 @@ document.addEventListener('DOMContentLoaded', () => {
     checkoutBtn.onmouseover = () => { checkoutBtn.style.transform = 'translateY(-2px)'; checkoutBtn.style.boxShadow = '0 6px 20px rgba(255,85,0,0.4)'; };
     checkoutBtn.onmouseout = () => { checkoutBtn.style.transform = 'translateY(0)'; checkoutBtn.style.boxShadow = 'none'; };
     
+    // Add click effect for checkout button
+    checkoutBtn.addEventListener('click', () => {
+        if (cart.length === 0) {
+            alert('Your cart is empty! Please add some items before checking out.');
+            return;
+        }
+        window.location.href = 'checkout.php';
+    });
+    
     // Overlay
     const overlay = document.createElement('div');
     overlay.id = 'cart-overlay';

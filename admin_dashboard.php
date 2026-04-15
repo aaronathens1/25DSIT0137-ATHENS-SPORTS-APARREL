@@ -269,6 +269,29 @@ if (isset($_GET['logout'])) {
         </div>
 
         <div class="dashboard-header" style="margin-top: 4rem;">
+            <h1>Recent Orders</h1>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Total</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-tbody">
+                    <tr><td colspan="7" style="text-align:center">Loading orders...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dashboard-header" style="margin-top: 4rem;">
             <h1>Customer Messages</h1>
         </div>
 
@@ -325,6 +348,7 @@ if (isset($_GET['logout'])) {
     <script>
         let productsData = [];
         let messagesData = [];
+        let ordersData = [];
         let currentAction = 'add'; // 'add' or 'edit'
 
         // Fetch products on load
@@ -342,7 +366,7 @@ if (isset($_GET['logout'])) {
             const tbody = document.getElementById('products-tbody');
             tbody.innerHTML = '';
             
-            if (!productsData || productsData.length === 0) {
+            if (!productsData || productsData.length === 0 || productsData.error) {
                 tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No products found.</td></tr>';
                 return;
             }
@@ -512,19 +536,68 @@ if (isset($_GET['logout'])) {
                 alert("Request Failed: " + err.message);
             }
         }
-
         function replyToMessage(email) {
             const replyText = prompt("Draft your reply to " + email + ":");
             if (replyText) {
                 const subject = encodeURIComponent("Reply from Athens Sports Apparel");
                 const body = encodeURIComponent(replyText);
-                window.location.href = \`mailto:\${email}?subject=\${subject}&body=\${body}\`;
+                window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
             }
+        }
+
+        async function fetchOrders() {
+            try {
+                const res = await fetch('admin_api_orders.php');
+                ordersData = await res.json();
+                renderOrdersTable();
+            } catch (err) {
+                console.error("Failed to load orders", err);
+            }
+        }
+
+        function renderOrdersTable() {
+            const tbody = document.getElementById('orders-tbody');
+            tbody.innerHTML = '';
+            
+            if (!ordersData || ordersData.length === 0 || ordersData.error) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center">No orders found.</td></tr>';
+                return;
+            }
+
+            ordersData.forEach(o => {
+                const tr = document.createElement('tr');
+                const badgeColor = o.status === 'Completed' ? '#28a745' : (o.status === 'Pending' ? '#ffc107' : '#17a2b8');
+                
+                tr.innerHTML = `
+                    <td>#${o.id}</td>
+                    <td>${new Date(o.created_at).toLocaleString()}</td>
+                    <td>
+                        <strong>${o.full_name}</strong><br>
+                        <small style="color:var(--text-muted)">${o.email} | ${o.phone}</small>
+                    </td>
+                    <td style="color:var(--brand-orange); font-weight:bold">$${Number(o.total_amount || 0).toFixed(2)}</td>
+                    <td style="text-transform: capitalize;">${(o.payment_method || 'Unknown').replace('_', ' ')}</td>
+                    <td><span style="background:${badgeColor}; color:black; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight:bold;">${o.status}</span></td>
+                    <td class="action-btns">
+                        <button class="btn btn-small" style="background:#0070f3" onclick="viewOrderDetails(${o.id})">View Items</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function viewOrderDetails(orderId) {
+            const order = ordersData.find(o => o.id === orderId);
+            if(!order) return;
+            let itemList = order.items && order.items.length ? order.items.map(i => i.quantity + "x " + (i.product_name || "Item") + " @ $" + Number(i.price || 0).toFixed(2)).join("\\n") : "No items found.";
+            
+            alert("Order #" + order.id + " Items:\n\n" + itemList + "\n\nShipping Address:\n" + order.address);
         }
 
         // Init
         fetchProducts();
         fetchMessages();
+        fetchOrders();
     </script>
 </body>
 </html>

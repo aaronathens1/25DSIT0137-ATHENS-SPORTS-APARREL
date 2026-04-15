@@ -158,12 +158,40 @@
                     return;
                 }
                 items.forEach(prod => {
+                    const isFootwear = /(shoe|boot|cleat|spike|skate)/i.test(prod.name);
+                    const isApparel = /(shirt|short|glove|helmet|pad|windbreaker|band|sock|wristband|swimsuit|jersey|headgear|guard|apparel)/i.test(prod.name) || /(football|running|gym|tennis|baseball|swimming|volleyball|golf|boxing|cycling|rugby)/i.test(prod.category) && /(shirt|short|glove|helmet|pad|windbreaker|band|sock|wristband|swimsuit|jersey|headgear|guard)/i.test(prod.name);
+                    
+                    let sizeSelectHTML = '';
+                    if (isFootwear) {
+                        sizeSelectHTML = `
+                            <select class="product-size-select" style="margin-bottom:15px; width:100%; padding:8px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:#050505; color:white; outline:none; font-family:'Roboto',sans-serif;">
+                                <option value="7">Size: 7</option>
+                                <option value="8">Size: 8</option>
+                                <option value="9">Size: 9</option>
+                                <option value="10" selected>Size: 10</option>
+                                <option value="11">Size: 11</option>
+                                <option value="12">Size: 12</option>
+                                <option value="13">Size: 13</option>
+                            </select>
+                        `;
+                    } else if (isApparel) {
+                        sizeSelectHTML = `
+                            <select class="product-size-select" style="margin-bottom:15px; width:100%; padding:8px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:#050505; color:white; outline:none; font-family:'Roboto',sans-serif;">
+                                <option value="S">Size: S</option>
+                                <option value="M" selected>Size: M</option>
+                                <option value="L">Size: L</option>
+                                <option value="XL">Size: XL</option>
+                            </select>
+                        `;
+                    }
+
                     const card = document.createElement("div");
                     card.classList.add("product-card");
                     card.innerHTML = `
                         <img src="${prod.image}" alt="${prod.name}">
                         <h3>${prod.name}</h3>
                         <p>$${prod.price}</p>
+                        ${sizeSelectHTML}
                         <button class="add-to-cart" data-product="${prod.name}" data-price="${prod.price}">Add to Cart</button>
                     `;
                     gridEl.appendChild(card);
@@ -173,16 +201,29 @@
                 const addButtons = document.querySelectorAll(".add-to-cart");
                 addButtons.forEach(button => {
                     button.addEventListener("click", () => {
-                        const imgEl = button.closest('.product-card').querySelector('img');
+                        const card = button.closest('.product-card');
+                        const imgEl = card.querySelector('img');
+                        const sizeSelect = card.querySelector('.product-size-select');
                         const imgSrc = imgEl ? imgEl.src : null;
+                        
+                        let product = button.dataset.product;
+                        const price = button.dataset.price;
+                        
+                        if (sizeSelect) {
+                            product = product + " - Size: " + sizeSelect.value;
+                        }
+
                         if(typeof window.addToCartGlobal === 'function') {
-                            window.addToCartGlobal(button.dataset.product, button.dataset.price, imgSrc);
+                            window.addToCartGlobal(product, price, imgSrc);
                         } else {
                             cart.push({
-                                product: button.dataset.product,
-                                price: button.dataset.price
+                                product: product,
+                                price: price,
+                                image: imgSrc,
+                                quantity: 1
                             });
                             if(typeof updateCartCount === 'function') updateCartCount();
+                            alert(product + " added to cart!");
                         }
                     });
                 });
